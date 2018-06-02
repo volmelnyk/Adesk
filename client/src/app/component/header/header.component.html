@@ -1,0 +1,57 @@
+<nav class="navbar navbar-inverse">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" (click)="isCollapsed = !isCollapsed">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" [routerLink]="['home']">Adesk</a>
+  </div>
+  <div class="collapse navbar-collapse" [collapse]="!isCollapsed">
+    <div *ngIf="isLoggedIn(); then loggedInBlock else notLoggedInBlock"></div>
+    <ng-template #notLoggedInBlock>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a [routerLink]="['/register']">
+            <span class="glyphicon glyphicon-user"></span> Зареєструватися
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/login']">
+            <span class="glyphicon glyphicon-log-in"></span> Увійти
+          </a>
+        </li>
+      </ul>
+    </ng-template>
+    <ng-template #loggedInBlock>
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="getUserRole() == 'ROLE_USER'">
+          <a [routerLink]="['/add-advert']">
+            <span class="glyphicon glyphicon-plus"></span> Додати
+          </a>
+        </li>
+        <li *ngIf="getUserRole() == 'ROLE_USER'">
+          <a [routerLink]="['/user-profile', userInfo().sub]">
+          <!--<a [routerLink]="['/user-profile']">-->
+            <span class="glyphicon glyphicon-user"></span> {{userInfo().sub}}
+          </a>
+        </li>
+        <li *ngIf="userInfo().role == 'Admin'">
+          <a [routerLink]="['/register-admin']">
+            <span class="glyphicon glyphicon-plus"></span> Додати адміністратора
+          </a>
+        </li>
+        <li *ngIf="userInfo().role == 'Admin'">
+          <a [routerLink]="['/admin-profile']">
+            <span class="glyphicon glyphicon-user"></span> {{userInfo().sub}}
+          </a>
+        </li>
+        <li>
+          <a class="finger" (click)="logOut()">
+            <span class="glyphicon glyphicon-log-out"></span> Вийти
+          </a>
+        </li>
+      </ul>
+    </ng-template>
+  </div>
+</nav>

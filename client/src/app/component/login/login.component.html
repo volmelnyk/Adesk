@@ -1,0 +1,25 @@
+<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+  <h3 class="text-center">Увійдіть у свій обліковий запис</h3>
+  <hr/>
+    <div *ngFor="let alert of alerts">
+
+     <!--<alert type="danger" dismissible="true" (onClose)="removeAlert(i)">-->
+      <ngb-alert type="danger" dismissible="true" (onClose)="removeAlert(i)"> {{alert}}</ngb-alert>
+     <!--</alert>-->
+    </div>
+    <div class="form-group">
+      <label for="login" class="control-label">Логін:</label>
+      <input [(ngModel)]="login" (keyup.enter)="logIn()" type="text" class="form-control" id="login" name="adeskLogin"
+             autocomplete="on"/>
+    </div>
+    <div class="form-group">
+      <label for="password" class="control-label">Пароль:</label>
+      <input [(ngModel)]="password" (keyup.enter)="logIn()" type="password" class="form-control" name="adeskPassword"
+             id="password" autocomplete="on"/>
+    </div>
+
+    <div class="form-group">
+      <input (click)="logIn()" type="submit" value="Увійти" [disabled]="isDisabled" class="btn btn-success btn-block"/>
+    </div>
+
+</div>

@@ -1,0 +1,141 @@
+<div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+  <h3 class="text-center">
+    Редагування особистої інформації
+  </h3>
+
+
+  <hr/>
+  <label class="control-label">Фото:</label>
+
+
+  <img class="img-responsive center-block"
+       src="./assets/avatar/{{photoAv}}"/>
+
+
+<input type="file" (change)="selectedFile($event)">
+  <button (click)="upload()">Upload</button>
+  <div>
+    <div *ngFor="let alert of userAlerts; let i=index">
+      <ngb-alert  type="danger" dismissible="true" (onClose)="removeAlert(i, userAlerts)">{{alert}}</ngb-alert >
+    </div>
+
+    <br/>
+    <div class="form-group">
+      <label for="username" class="control-label">Ім'я користувача:</label>
+      <input [(ngModel)]="currentUser && currentUser.username" type="text" class="form-control" id="username" readonly
+             maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="control-label">Email:</label>
+      <input [(ngModel)]="currentUser &&currentUser.email" type="text" class="form-control" id="email" maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="firstName" class="control-label">Ім'я:</label>
+      <input [(ngModel)]="currentUser && currentUser.firstName" type="text" class="form-control" id="firstName"
+             maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="secondName" class="control-label">Прізвище:</label>
+      <input [(ngModel)]="currentUser && currentUser.secondName" type="text" class="form-control" id="secondName"
+             maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="city" class="control-label">Місто:</label>
+
+      <select id="city" (change)="onSelect($event.target.value)" class="form-control">
+        <option selected = selected >{{initialCity}}</option>
+        <option *ngFor="let item of cities" value={{item.id}} >
+          {{item.name}}
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="control-label">Опис:</label>
+      <textarea [(ngModel)]="currentUser && currentUser.description" class="form-control" rows="6" maxlength="4000"
+                id="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <input (click)="saveUser()" type="submit" [disabled]="isDisabled" value="Зберегти"
+             class="btn btn-success btn-block"/>
+    </div>
+    <div class="form-group">
+      <input (click)="resetUser()" type="button" [disabled]="isDisabled" value="Скинути"
+             class="btn btn-danger btn-block"/>
+    </div>
+
+    <hr/>
+  </div>
+
+  <div *ngIf="authService.getUser().role == 'ROLE_USER'">
+    <div *ngFor="let alert of phoneAlerts; let i=index">
+      <alert type="danger" dismissible="true" (onClose)="removeAlert(i, phoneAlerts)">{{alert}}</alert>
+    </div>
+
+    <p class="lead">
+      Телефони:
+    </p>
+
+    <div class="input-group">
+      <input type="text" class="form-control" [(ngModel)]="newPhone">
+      <span class="input-group-btn">
+                <button class="btn btn-default"
+                        type="button"
+                        style="font-size:14px"
+                        (click)="addPhone()"
+                        [disabled]="isPhoneAddDisabled">
+                    <b>+</b>
+                </button>
+            </span>
+    </div>
+
+    <div *ngIf="phones.length > 0">
+      <br/>
+      <ul class="list-group">
+        <li *ngFor="let phone of phones" class="list-group-item">
+          {{phone.number}}
+          <button class="btn btn-xs btn-default glyphicon glyphicon-trash pull-right"
+                  (click)="deletePhone(phone.id)"></button>
+        </li>
+      </ul>
+    </div>
+
+    <hr/>
+  </div>
+
+  <div>
+    <div *ngFor="let alert of passwordAlerts; let i=index">
+      <ngb-alert  type="danger" dismissible="true" (onClose)="removeAlert(i, passwordAlerts)">{{alert}}</ngb-alert >
+    </div>
+
+    <p class="lead">
+      Пароль:
+    </p>
+    <div class="form-group">
+    <label for="oldPassword" class="control-label">Старий пароль:</label>
+    <input [(ngModel)]="password && password.oldPassword" id="oldPassword" type="password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+    <label for="newPassword" class="control-label">Новий пароль:</label>
+    <input [(ngModel)]="password && password.newPassword" id="newPassword" type="password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+    <label for="confirmPassword" class="control-label">Повторіть пароль:</label>
+    <input [(ngModel)]="password && password.confirmPassword" id="confirmPassword" type="password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <input (click)="savePassword()" type="submit" [disabled]="isPasswordDisabled" value="Зберегти"
+             class="btn btn-success btn-block"/>
+    </div>
+  </div>
+</div>

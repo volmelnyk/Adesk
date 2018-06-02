@@ -1,0 +1,49 @@
+<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+  <h3 class="text-center">Зареєструйте свій обліковий запис</h3>
+
+  <div *ngFor="let alert of alerts; let i=index">
+    <ngb-alert type="danger" dismissible="true" (onClose)="removeAlert(i)">{{alert}}</ngb-alert>
+  </div>
+
+  <div class="form-group">
+    <label for="firstName" class="control-label">Ім'я:</label>
+    <input [(ngModel)]="user.firstName" (keyup.enter)="register()" type="text" class="form-control" id="firstName"
+           name="adeskLogin"
+           autocomplete="on"/>
+  </div>
+  <div class="form-group">
+    <label for="secondName" class="control-label">Прізвище:</label>
+    <input [(ngModel)]="user.secondName" (keyup.enter)="register()" type="text" class="form-control" id="secondName"
+           name="adeskLogin"
+           autocomplete="on"/>
+  </div>
+
+  <div class="form-group">
+    <label for="login" class="control-label">Логін:</label>
+    <input [(ngModel)]="user.username" (keyup.enter)="register()" type="text" class="form-control" id="login"
+           name="adeskLogin"
+           autocomplete="on"/>
+  </div>
+  <div class="form-group">
+    <label for="email" class="control-label">Пошта:</label>
+    <input [(ngModel)]="user.email" (keyup.enter)="register()" type="text" class="form-control" id="email"
+           name="adeskLogin"
+           autocomplete="on"/>
+  </div>
+  <div class="form-group">
+    <label for="password" class="control-label">Пароль:</label>
+    <input [(ngModel)]="user.password" (keyup.enter)="register()" type="password" class="form-control"
+           name="adeskPassword"
+           id="password" autocomplete="on"/>
+  </div>
+  <div class="form-group">
+    <label for="confirmPassword" class="control-label">Підтвердження пароля:</label>
+    <input [(ngModel)]="user.confirmPassword" (keyup.enter)="register()" type="password" class="form-control"
+           name="adeskPassword"
+           id="confirmPassword" autocomplete="on"/>
+  </div>
+
+  <div class="form-group">
+    <input (click)="register()" type="submit" value="Зареєструвати" [disabled]="isDisabled" class="btn btn-success btn-block"/>
+  </div>
+</div>

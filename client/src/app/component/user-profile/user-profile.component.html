@@ -1,0 +1,96 @@
+<div class="col-lg-12 col-md-12 col-sm-12 ">
+  <tabset>
+    <tab>
+      <ng-template tabHeading>
+        Профіль
+      </ng-template>
+      <hr/>
+      <div class="container">
+        <div class=" row">
+          <div class="col-lg-6">
+            <img class="img-responsive center-block"
+                 src="./assets/avatar/{{photoAv}}"/>
+          </div>
+          <div class="col-lg-6">
+            <a *ngIf="isOwner()" [routerLink]="['/edit-user']" class="pull-right">
+              <span class="btn btn-default glyphicon glyphicon-pencil"></span>
+            </a>
+            <p>Контактне ім'я: {{user?.firstName}} {{user?.secondName}}</p>
+            <p>Ім'я користувача: {{user?.username}}</p>
+            <p>Email: {{user?.email}}</p>
+            <p *ngIf="user?.city!=undefined">Місто: {{user?.city.name}}</p>
+          </div>
+        </div>
+        <hr/>
+        <div *ngIf="user?.phones?.length > 0" class="col-lg-12 col-md-12 col-sm-12">
+          <p class="lead">
+            Телефони:
+          </p>
+          <ul class="list-group">
+            <li *ngFor="let phone of user.phones" class="list-group-item">
+              {{phone.number}}
+            </li>
+          </ul>
+        </div>
+        <div *ngIf=" authService.isNonLocked() && !isOwner()">
+          <hr/>
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <p class="lead">
+              Залишити відгук:
+            </p>
+            <div class="form-group">
+              <textarea [(ngModel)]="comment" class="form-control" rows="6" maxlength="4000"></textarea>
+            </div>
+          </div>
+          <div class="form-group col-lg-2 col-md-2 col-sm-2">
+            <input (click)="addCompent()" type="submit" value="Надіслати" class="btn btn-success pull-right"
+                   [disabled]="comment.length < 1"/>
+          </div>
+        </div>
+
+        <hr/>
+        <div *ngIf="responseList?.length > 0" class="col-lg-12 col-md-12 col-sm-12">
+
+          <p class="lead">
+            Відгуки:
+          </p>
+
+          <ul class="list-group">
+            <li *ngFor="let response of responseList" class="list-group-item">
+
+              <span class="text-primary">
+              <img class="img-icon img-circle"
+                   src="./assets/avatar/{{response.senderPhoto}}"/>
+
+             <a routerLink="/user-profile/{{response.senderName}}">
+                {{response.senderName}}
+              </a>
+                </span>
+              <p>{{response.text}}</p>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        Оголошення
+      </ng-template>
+      <ul *ngIf="user?.Adverts?.length > 0; else empty" class="list-group">
+
+      </ul>
+      <ng-template #empty>
+        <div *ngIf="isOwner(); else publicNoAdverts" class="no-adverts-block">
+          <p class="lead text-center">У вас немає оголошень</p>
+        </div>
+        <ng-template #publicNoAdverts>
+          <div class="no-adverts-block">
+            <p class="lead text-center">У користувача немає оголошень</p>
+          </div>
+        </ng-template>
+      </ng-template>
+    </tab>
+  </tabset>
+</div>
+

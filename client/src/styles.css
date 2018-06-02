@@ -1,0 +1,28 @@
+@import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+
+.no-adverts-block {
+  height: 300px;
+  color: lightgrey;
+  vertical-align: middle;
+  background: url('assets/pin.png') center no-repeat;
+}
+
+.nothing-found-block {
+  height: 300px;
+  color: lightgrey;
+  vertical-align: middle;
+  background: url('assets/search.png') center no-repeat;
+}
+
+.finger:hover {
+  cursor: pointer;
+}
+
+.img-icon {
+  height: 32px;
+  width: 32px;
+}
+
+textarea {
+  resize: vertical;
+}
