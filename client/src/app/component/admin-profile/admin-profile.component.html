@@ -1,0 +1,51 @@
+<div class="col-lg-12 col-md-12 col-sm-12 ">
+  <tabset>
+    <tab>
+      <ng-template tabHeading>
+        Профіль
+      </ng-template>
+      <hr />
+      <div class="col-lg-6">
+        <img src="./assets/avatar/{{adminInfo.photo}}" class="img-responsive center-block" />
+      </div>
+
+      <div class="col-lg-6">
+        <a [routerLink]="['/edit-user']" class="pull-right">
+          <span class="btn btn-default glyphicon glyphicon-pencil"></span>
+        </a>
+        <div class="lead">
+          <p>Ім'я користувача: {{adminInfo.username}}</p>
+          <p>Email: {{adminInfo.email}}</p>
+        </div>
+      </div>
+    </tab>
+    <tab>
+      <ng-template tabHeading>
+        Користувачі
+      </ng-template>
+      <hr />
+      <ul class="list-group">
+        <li *ngFor="let user of allUsers" class="list-group-item">
+          <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3">
+              <img src="./assets/avatar/{{user.photo}}" class="img-responsive center-block" />
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-6">
+              <p>
+                Ім'я: {{user.username}}<br />
+                Email: {{user.email}}<br />
+              </p>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3">
+              <button (click)="lock(user.username)" *ngIf="!user.accountNonLocked===false; else unblock" class="btn btn-danger pull-right btn-block lock">Заблокувати</button>
+              <ng-template #unblock>
+                <button (click)="lock(user.username)" class="btn btn-warning pull-right btn-block unlock">Розблокувати</button>
+              </ng-template>
+              <a [routerLink]="['/user-profile',user.username]" class="btn btn-info pull-right btn-block">Переглянути</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </tab>
+  </tabset>
+</div>

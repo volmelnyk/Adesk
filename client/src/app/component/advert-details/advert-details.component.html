@@ -1,0 +1,58 @@
+<div class="col-lg-12 col-md-12 col-sm-12 ">
+  <div class="col-lg-12 col-md-12 col-sm-12 ">
+    <h1>
+      {{advert?.title}}
+      <input type="button"
+             *ngIf="isLoggedIn() && role() == 'ROLE_ADMIN'"
+             (click)="delete()"
+             value="Видалити"
+             class="btn btn-danger pull-right"/>
+    </h1>
+    <hr/>
+  </div>
+  <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+    <img *ngIf="advert?.photo" src="./assets/advetrs//{{advert?.photo}}" class="img-responsive center-block"/>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <hr/>
+  </div>
+  <div class="col-lg-8 col-md-8 col-sm-8">
+    <h4>
+      Оголошення від:
+      <a *ngIf="advert?.username" [routerLink]="['/user-profile', advert.username]">
+        {{advert?.username }}
+      </a>
+    </h4>
+    <h4>
+      Категорія:
+      <span>
+                {{advert?.categoryName}}
+      </span>
+    </h4>
+    <h4>
+      Створено:
+      {{advert?.date | date:'dd.MM.yyyy hh:mm:ss'}}
+    </h4>
+  </div>
+  <div class="col-lg-4 col-md-4 col-sm-4">
+    <h2 class="text-right">
+      {{advert?.price}} грн.
+    </h2>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <h4>Опис:</h4>
+    <p>
+      {{advert?.description}}
+    </p>
+    <hr/>
+  </div>
+  <div *ngIf="phones?.length > 0" class="col-lg-12 col-md-12 col-sm-12">
+    <h4>Додаткова інформація за телефонами:</h4>
+    <ul class="list-group">
+      <li *ngFor="let phone of phones" class="list-group-item">
+        {{phone.number}}
+      </li>
+    </ul>
+    <hr />
+  </div>
+</div>
