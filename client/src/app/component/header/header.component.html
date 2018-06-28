@@ -12,7 +12,7 @@
     <ng-template #notLoggedInBlock>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <a [routerLink]="['/register']">
+          <a [routerLink]="['/register-user']">
             <span class="glyphicon glyphicon-user"></span> Зареєструватися
           </a>
         </li>
@@ -36,13 +36,13 @@
             <span class="glyphicon glyphicon-user"></span> {{userInfo().sub}}
           </a>
         </li>
-        <li *ngIf="userInfo().role == 'Admin'">
+        <li *ngIf="userInfo().role == 'ROLE_ADMIN'">
           <a [routerLink]="['/register-admin']">
             <span class="glyphicon glyphicon-plus"></span> Додати адміністратора
           </a>
         </li>
-        <li *ngIf="userInfo().role == 'Admin'">
-          <a [routerLink]="['/admin-profile']">
+        <li *ngIf="userInfo().role == 'ROLE_ADMIN'">
+          <a [routerLink]="['/admin']">
             <span class="glyphicon glyphicon-user"></span> {{userInfo().sub}}
           </a>
         </li>

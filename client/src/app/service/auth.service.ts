@@ -4,16 +4,17 @@ import {HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {Router} from "@angular/router";
 
 
 @Injectable()
 export class AuthService {
   private http: HttpClient;
   private jwtHelper: JwtHelperService;
-  public userInfo: any;
+  // public userInfo: any;
 
 
-  constructor(http: HttpClient, jwtHelper: JwtHelperService) {
+  constructor(http: HttpClient, jwtHelper: JwtHelperService, private router:Router) {
     this.http = http;
     this.jwtHelper = jwtHelper;
   }
@@ -28,16 +29,13 @@ export class AuthService {
   {
     localStorage.removeItem('token');
     // location.reload();
+    // location.reload();
   }
-  public logIn(ussername: string, password: string)/*:Observable<any>*/
+  public logIn(ussername: string, password: string):Observable<void>
   {
-     this.getToken(ussername,password).subscribe(
-      data=>
-      {
-        console.log(data);
-        this.setToken(data.token);
-      }
-    )
+    this.logOut()
+     return this.getToken(ussername,password)
+       .map(this.setToken,this);
 
 
   }
@@ -45,25 +43,20 @@ export class AuthService {
   setToken(tokrnObj: string)
   {
    localStorage.setItem("token",tokrnObj);
-    this.setUserInfo(tokrnObj);
+    // this.setUserInfo(tokrnObj);
   }
-  private setUserInfo(accessToken) {
-
-     var parsed = this.jwtHelper.decodeToken(accessToken)
-      console.log(parsed);
-
-  }
+  // private setUserInfo(accessToken) {
+  //
+  //    var parsed = this.jwtHelper.decodeToken(accessToken)
+  //     console.log(parsed);
+  //
+  // }
 
   public getUser()
   {
     return this.jwtHelper.decodeToken(localStorage.getItem('token'));
   }
 
-  public getUserInfo()
-  {
-    console.log(this.userInfo);
-    return this.userInfo;
-  }
 
   isLoggedIn():boolean
   {
@@ -79,19 +72,27 @@ export class AuthService {
     return true;
   }
 
-  isNonLocked(){
-    return this.jwtHelper.decodeToken(localStorage.getItem('token')).isNonLocked;
+  isNonLocked():boolean
+  {
+    if(this.isLoggedIn())
+      return this.getUser().isNonLocked;
   }
 
-  regiserUser(firstName: string, secondName: string,username:string,email:string,password:string)
+  isNonBlock():boolean
   {
+    return this.isNonLocked();
+  }
 
-    this.http.post<any>('http://localhost:8080/users/signOut', {
-      firstName:firstName,
-      secondName:secondName,
+  regiser(username:string,email:string,password:string,route:string)
+  {
+    console.log('http://localhost:8080/users/'+ route);
+    this.http.post<any>('http://localhost:8080/users/'+route, {
+
       username:username,
       email:email,
       password:password
-    }).subscribe();
+    }).subscribe(null,null,()=>{
+      this.router.navigate(["login"]);});
   }
+
 }

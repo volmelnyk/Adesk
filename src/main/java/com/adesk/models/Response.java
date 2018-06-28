@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-//@ToString
+@ToString
 public class Response {
 
     @Id
@@ -25,15 +25,9 @@ public class Response {
     private String text;
     private Date date;
     private int receiverId;
-    private String senderName;
-    private String senderPhoto;
 
     @JsonIgnore
     @ManyToOne
     private User user;
 
-//    @JsonGetter("sender")
-//    public User getUser() {
-//        return user;
-//    }
 }

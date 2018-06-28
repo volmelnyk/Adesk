@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AuthService} from "../../service/auth.service";
 import {augmentAppWithServiceWorker} from "@angular/cli/utilities/service-worker";
 import {JwtHelper} from "angular2-jwt";
@@ -17,6 +17,7 @@ class httpService {
 })
 export class RegisterComponent implements OnInit {
 
+  @Input() private route: string
   // private username: string;
   // private password: string;
   // private email: string;
@@ -37,19 +38,24 @@ export class RegisterComponent implements OnInit {
     confirmPassword: ""
   };
 
-  constructor(private router: Router, private auth: AuthService, private errorService:ErrorService ) {
+  constructor(private router: Router, private auth: AuthService, private errorService: ErrorService) {
 
   }
 
   ngOnInit() {
+    if(this.route==undefined)
+    {
+      this.route = "";
+    }
   }
 
   register() {
 
     if (this.validate()) {
 
-    this.auth.regiserUser(this.user.firstName, this.user.secondName, this.user.username, this.user.email, this.user.password);
-  }
+      this.auth.regiser(/*this.user.firstName, this.user.secondName, */this.user.username, this.user.email, this.user.password,this.route);
+      this.route="";
+    }
   }
 
   public validate(): boolean {

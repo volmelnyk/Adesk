@@ -28,11 +28,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem('token'));
   }
 
   public logIn() {
+
     this.authService.logOut();
-    console.log(localStorage.getItem('token'));
+    console.log(this.jwtHelper.decodeToken(localStorage.getItem('token')));
     // this.authService.logIn(this.login, this.password);
 
     this.authService.getToken(this.login,this.password).subscribe(

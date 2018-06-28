@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,12 +22,10 @@ public class Advert {
     private int id;
 
     private String Title;
-    private String date;
+    private Date date;
     private float price;
     private String description;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "advert")
-    List<Photo> photos = new ArrayList<>();
+    private  String photo;
 
     @ManyToOne
     private User user;
@@ -34,5 +33,13 @@ public class Advert {
     @ManyToOne
     private SubCategory subCategory;
 
-
+    public Advert(String title, Date date, float price, String description, User user, SubCategory subCategory, String photo) {
+        Title = title;
+        this.date = date;
+        this.price = price;
+        this.description = description;
+        this.user = user;
+        this.subCategory = subCategory;
+        this.photo = photo;
+    }
 }

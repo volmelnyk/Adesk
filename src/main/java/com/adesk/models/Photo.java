@@ -18,6 +18,6 @@ public class Photo {
 
     private String path;
 
-    @ManyToOne
-    private Advert advert;
+//    @ManyToOne
+//    private Advert advert;
 }

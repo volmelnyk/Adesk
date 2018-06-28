@@ -35,7 +35,6 @@ public class User  implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
-    private String description;
     private String photo;
 
     @Enumerated(EnumType.STRING)
@@ -54,7 +53,7 @@ public class User  implements UserDetails {
         this.password = password;
     }
 
-    public User(int id ,String email, String firstName, String secondName, String username, String password, String description, String photo, Role role, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, List<Advert> adverts, City city, List<Response> responses, List<Phone> phones) {
+    public User(int id ,String email, String firstName, String secondName, String username, String password, String photo, Role role, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, List<Advert> adverts, City city, List<Response> responses, List<Phone> phones) {
 
         this.id = id;
         this.email = email;
@@ -62,7 +61,7 @@ public class User  implements UserDetails {
         this.secondName = secondName;
         this.username = username;
         this.password = password;
-        this.description = description;
+//        this.description = description;
         this.photo = photo;
         this.role = role;
         this.accountNonExpired = accountNonExpired;

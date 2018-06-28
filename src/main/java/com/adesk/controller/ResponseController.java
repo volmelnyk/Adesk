@@ -1,5 +1,6 @@
 package com.adesk.controller;
 
+import com.adesk.DTO.response.ResponseDTO;
 import com.adesk.models.Response;
 import com.adesk.models.User;
 import com.adesk.service.ResponseService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,24 +22,28 @@ public class ResponseController {
     private UserService userService;
 
     @PostMapping("/response/add")
-    public void addResponse(@RequestBody Response response, Principal principal) {
+    public void addResponse(@RequestBody ResponseDTO responseDTO, Principal principal) {
         User user = (User)userService.loadUserByUsername(principal.getName());
+        Response response = new Response();
         response.setUser(user);
         response.setDate(new Date());
-        response.setReceiverId(response.getReceiverId());
-        response.setSenderName(user.getUsername());
-        response.setSenderPhoto(user.getPhoto());
-        responseService.save(response);
+        response.setReceiverId(responseDTO.getReceiverId());
+        response.setText(responseDTO.getText());
+       responseService.save(response);
     }
 
-    @GetMapping("/response/all")
-    public List<Response> getAllREsponse() {
-        return responseService.findAll();
-    }
 
     @GetMapping("/response/all/{id}")
-    public List<Response> getAllByReciverId(@PathVariable("id") int id) {
-        return responseService.findAllByReciverId(id);
+    public List<ResponseDTO> getAllByReciverId(@PathVariable("id") int id) {
+        List<ResponseDTO> responseDTO = new ArrayList<>();
+
+        List<Response> responses = responseService.findAllByReciverId(id);
+
+        for (Response respons : responses) {
+            responseDTO.add(new ResponseDTO(respons.getId(),respons.getText(),respons.getReceiverId(),respons.getDate(),respons.getUser().getUsername(),respons.getUser().getPhoto()));
+        }
+
+        return responseDTO;
     }
 
     @GetMapping("/response/delete/{id}")

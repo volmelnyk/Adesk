@@ -1,3 +1,51 @@
-<p>
-  add-advert works!
-</p>
+<div *ngIf="authService.isNonLocked()" class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
+  <h3 *ngIf="mode == 'add'" class="text-center">Створення нового оголошення</h3>
+  <h3 *ngIf="mode == 'edit'" class="text-center">Редагування оголошення</h3>
+  <hr/>
+
+  <label class="control-label">Фото:</label>
+
+  <img src="./assets/advetrs/{{photo}}" class="img-responsive center-block"/>
+
+
+  <span class="btn btn-success btn-file">Завантажити
+          <input type="file" (change)="selectedFile($event)">
+    </span>
+  <input type="submit" class="btn btn-success pull-right" (click)="photoDefoult()" value="Фото за замовчуванням"/>
+  <div *ngFor="let alert of userAlerts; let i=index">
+    <ngb-alert type="danger" dismissible="true" (onClose)="removeAlert(i, userAlerts)">{{alert}}</ngb-alert>
+  </div>
+  <div>
+
+    <div class="form-group">
+      <label for="title" class="control-label">Заголовок:</label>
+      <input [(ngModel)]="title" type="text" class="form-control" id="title" maxlength="50">
+    </div>
+
+    <div class="form-group">
+      <label for="category" class="control-label">Категорія:</label>
+      <select id="category" (change)="onSelect($event.target.value)" class="form-control" required="required">
+        <option>Оберіть категорію</option>
+        <option *ngFor="let item of categories" value={{item.id}}>
+          {{item.subCategoryName}}
+        </option>
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label for="price" class="control-label">Ціна:</label>
+      <input [(ngModel)]="price" type="number" class="form-control" id="price" min="0"/>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="control-label">Опис:</label>
+      <textarea [(ngModel)]="descripton" class="form-control" rows="6" maxlength="4000"
+                id="description"></textarea>
+    </div>
+
+    <div class="form-group">
+      <input (click)="save()" type="submit" [disabled]="isDisabled" value="Зберегти" class="btn btn-success btn-block"/>
+    </div>
+  </div>
+</div>

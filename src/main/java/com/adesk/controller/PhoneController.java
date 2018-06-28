@@ -1,6 +1,7 @@
 package com.adesk.controller;
 
 
+import com.adesk.DTO.response.PhoneDTO;
 import com.adesk.models.Phone;
 import com.adesk.models.User;
 import com.adesk.service.PhoneService;
@@ -46,8 +47,8 @@ public class PhoneController {
         phoneService.save(newPhone);
     }
 
-    @GetMapping("/get-alll-pnones-by/{username}")
-    public List<Phone> getAllPhonesByUsername(@PathVariable(value = "username") String username)
+    @GetMapping("/get-all-pnones-by/{username}")
+    public List<PhoneDTO> getAllPhonesByUsername(@PathVariable(value = "username") String username)
     {
         return phoneService.findByUserName(username);
     }

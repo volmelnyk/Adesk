@@ -16,7 +16,7 @@ export class BlockedComponent implements OnInit {
   ngOnInit() {
   }
 
-  public isLocked() {
-    // return this.authService.isLocked();
-  }
+  public isNonLocked() {
+     return !this.authService.isNonBlock();
+}
 }

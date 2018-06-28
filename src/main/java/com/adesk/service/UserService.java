@@ -1,6 +1,7 @@
 package com.adesk.service;
 
 import com.adesk.DTO.response.PasswordDTO;
+import com.adesk.DTO.response.UserDTO;
 import com.adesk.models.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -13,7 +14,7 @@ public interface UserService extends UserDetailsService {
 
     void delete(int id);
 
-    List<User> findAll();
+    List<UserDTO> findAll();
 
     User findByUserId(Long id);
 
@@ -24,5 +25,7 @@ public interface UserService extends UserDetailsService {
     void newPhotoSave(File file);
 
     void deleteOldPhoto(File file);
+
+    void blockUnblock(String id);
 
 }

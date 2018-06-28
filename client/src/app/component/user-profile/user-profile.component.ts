@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../../service/auth.service";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-user-profile',
@@ -17,6 +18,8 @@ export class UserProfileComponent implements OnInit {
   private noavatar = "noavatar.jpg";
   private photoAv = "";
   private username: any;
+  private adverts: any;
+  public isNonLoced: boolean;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private authService: AuthService, /*private errorService: ErrorService*/) {
   }
@@ -27,14 +30,29 @@ export class UserProfileComponent implements OnInit {
         this.username = params["username"];
         this.http.get<any>("http://localhost:8080/users/" + this.username).subscribe(
           data => {
+
             this.user = data;
             this.userId = data.id;
             this.photoAv = data.photo;
             this.getAllResponses();
+            this.getAllAdverts();
+            this.isNonLoced = data.accountNonLocked;
+            console.log(data);
+            console.log(typeof this.isNonLoced);
           }
         )
       }
-    )
+    );
+  }
+
+
+  private getAllAdverts() {
+    this.http.get("http://localhost:8080/advert/getAll/" + this.user.username)
+      .subscribe(data => {
+          this.adverts = data;
+          console.log(data)
+        }
+      );
   }
 
   public isLoggedIn() {
@@ -51,12 +69,20 @@ export class UserProfileComponent implements OnInit {
 
   public getAllResponses() {
     // /response/all
+    console.log(this.userId);
     this.http.get("http://localhost:8080/response/all/" + this.userId).subscribe(
       data => {
-        console.log(data);
         this.responseList = data;
       }
     )
+    this.comment = "";
+  }
+
+  public deleteCommebt(id) {
+    this.http.get("http://localhost:8080/response/delete/" + id).subscribe(null, null, () => {
+      this.getAllResponses();
+    });
+
   }
 
   public addCompent() {
@@ -65,9 +91,17 @@ export class UserProfileComponent implements OnInit {
     this.http.post("http://localhost:8080/response/add", {
       text: this.comment,
       receiverId: this.userId,
-    }).subscribe(null,null,()=>{
+    }).subscribe(null, null, () => {
       this.getAllResponses();
     });
-
   }
+
+  public deleteAdvert(id) {
+    this.http.get("http://localhost:8080/advert/delete/" + id)
+      .subscribe(null, null,
+        () => {
+          this.getAllAdverts();
+        })
+  }
+
 }

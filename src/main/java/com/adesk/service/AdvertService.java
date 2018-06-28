@@ -1,5 +1,6 @@
 package com.adesk.service;
 
+import com.adesk.DTO.response.AdvertDTO;
 import com.adesk.models.Advert;
 import com.adesk.models.SubCategory;
 import com.adesk.models.User;
@@ -10,8 +11,8 @@ public interface AdvertService {
 
     void delete(int id);
     void save(Advert advert);
-    Advert findById(int id);
-    List<Advert> findByUser(User user);
-    List<Advert> findAll();
-    List<Advert> findBySubCategory(SubCategory subCategory);
+    AdvertDTO findById(int id);
+    List<AdvertDTO> findByUser(User user);
+    List<AdvertDTO> findAll();
+
 }

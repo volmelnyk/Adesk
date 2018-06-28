@@ -7,6 +7,7 @@ import com.adesk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -28,18 +29,28 @@ class AuthController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<?> register(@RequestBody User loginUser) throws AuthenticationException {
+    public ResponseEntity<?> register(@RequestBody User loginUser)  {
 
         System.out.println(loginUser.getUsername());
         System.out.println(loginUser.getPassword());
         System.out.println(userService.loadUserByUsername(loginUser.getUsername()));
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginUser.getUsername(),
-                        loginUser.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        final Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginUser.getUsername(),
+                            loginUser.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        catch ( LockedException e) {
+
+            final User user = (User)userService.loadUserByUsername(loginUser.getUsername());
+            final String token = jwtTokenUtil.generateToken(user);
+            return ResponseEntity.ok(new AuthToken(token));
+
+        }
         final User user = (User)userService.loadUserByUsername(loginUser.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
         return ResponseEntity.ok(new AuthToken(token));
