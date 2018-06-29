@@ -41,7 +41,7 @@ public class PhoneServiceImpl  implements PhoneService{
         List<PhoneDTO> list = new ArrayList<>();
 
         for (Phone phone : phoneDao.findByUser(userDao.findByUsername(username))) {
-            list.add(new PhoneDTO(phone.getNumber()));
+            list.add(new PhoneDTO(phone.getId(),phone.getNumber()));
         }
         return list;
     }

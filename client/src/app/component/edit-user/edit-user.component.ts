@@ -45,7 +45,6 @@ export class EditUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.authService.getUser());
     this.http.get<any>("http://localhost:8080/users/" + this.authService.getUser().sub).subscribe(
       data => {
         this.currentUser = data;
@@ -216,25 +215,29 @@ export class EditUserComponent implements OnInit {
     }
   }
 
-  private resetUser() {
+  public resetUser() {
 
     this.currentUser = _.clone(this.defoultUser, true);
   }
 
-  private addPhone() {
-    console.log(this.newPhone);
-    const credentials = {number: this.newPhone}
-    this.http.post<any>("http://localhost:8080/phone/add-phone", credentials).subscribe(
-      null,
-      null,
-      () => {
-        this.loadPhones();
-      }
-    );
+  public addPhone() {
+
+    if(this.newPhone != null) {
+      const credentials = {number: this.newPhone}
+      this.http.post<any>("http://localhost:8080/phone/add-phone", credentials).subscribe(
+        null,
+        null,
+        () => {
+          this.loadPhones();
+        }
+      );
+    }
+    this.newPhone = undefined;
   }
 
-  private deletePhone(id) {
-    this.http.delete("http://localhost:8080/phone/delete-phone/" + id).subscribe(
+  public deletePhone(id) {
+    console.log(id);
+    this.http.delete("http://localhost:8080/phone/delete-phone/" + id.toString()).subscribe(
       null,
       null,
       () => {
@@ -244,7 +247,8 @@ export class EditUserComponent implements OnInit {
   }
 
   private loadPhones() {
-    this.http.get("http://localhost:8080/phone/get-alll-pnones-by/" + this.currentUser.username).subscribe(
+    console.log(this.currentUser.username);
+    this.http.get("http://localhost:8080/phone/get-all-pnones-by/" + this.currentUser.username).subscribe(
       data => {
         this.phones = data;
       }

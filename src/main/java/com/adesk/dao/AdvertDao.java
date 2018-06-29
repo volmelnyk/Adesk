@@ -1,6 +1,7 @@
 package com.adesk.dao;
 
 import com.adesk.models.Advert;
+import com.adesk.models.SubCategory;
 import com.adesk.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,4 +17,6 @@ public interface AdvertDao extends JpaRepository<Advert,Integer> {
     @Transactional
     @Query("delete from Advert a where a.id = ?1")
     void deleteById(int id);
+
+    void findBySubCategory(SubCategory subCategory);
 }

@@ -1,11 +1,11 @@
 <div class="form-group col-lg-12 col-md-12 col-sm-12">
   <div class="form-group wrapper">
-    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Знайти" />
-    <br />
-    <input [(ngModel)]="minPrice" type="number" class="form-control" placeholder="Ціна від (грн)" />
-    <br />
-    <input [(ngModel)]="maxPrice" type="number" class="form-control" placeholder="Ціна до (грн)" />
-    <br />
+    <input [(ngModel)]="searchText" type="text" class="form-control" placeholder="Знайти"/>
+    <br/>
+    <input [(ngModel)]="minPrice" type="number" class="form-control" placeholder="Ціна від (грн)"/>
+    <br/>
+    <input [(ngModel)]="maxPrice" type="number" class="form-control" placeholder="Ціна до (грн)"/>
+    <br/>
     <div class="form-group">
       <select id="category" (change)="onSelect($event.target.value)" class="form-control" required="required">
         <option>Оберіть категорію</option>
@@ -15,42 +15,42 @@
       </select>
     </div>
 
-    <br />
+    <br/>
     <fieldset>
       <legend class="small">Сортувати:</legend>
-      <input type="radio" name="sort" [(ngModel)]="sorting" value="new" />Найновіші<br />
-      <input type="radio" name="sort" [(ngModel)]="sorting" value="cheap" />Найдешевші<br />
-      <input type="radio" name="sort" [(ngModel)]="sorting" value="exp" />Найдорожчі<br />
+      <input type="radio" name="sort" [(ngModel)]="sorting" value="new"/>Найновіші<br/>
+      <input type="radio" name="sort" [(ngModel)]="sorting" value="cheap"/>Найдешевші<br/>
+      <input type="radio" name="sort" [(ngModel)]="sorting" value="exp"/>Найдорожчі<br/>
     </fieldset>
     <div class="form-group col-lg-10 col-md-10 col-sm-10">
     </div>
     <div class="form-group col-lg-2 col-md-2 col-sm-2">
-      <input (click)="submitFilter()" type="submit" value="Пошук" class="btn btn-info btn-block" />
+      <input (click)="submitFilter()" type="submit" value="Пошук" class="btn btn-info btn-block"/>
     </div>
   </div>
   <hr/>
-  <div *ngIf="showNotFound; else empty" class="list-group">
-    <a *ngFor="let advert of adverts" class="list-group-item" [routerLink]="['/advert-details', advert.id]">
-      <div class="row">
-        <div class="col-lg-2 col-md-2 col-sm-3">
-          <img src="./assets/advetrs/{{advert.photo}}" class="img-responsive center-block" />
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-5">
-          <div class="lead text-primary">
-            {{advert.title}}
+  <div *ngIf="filteredAdverts?.length>0; else empty"  class="list-group">
+      <a *ngFor="let advert of filteredAdverts" class="list-group-item" [routerLink]="['/advert-details', advert.id]">
+        <div class="row">
+          <div class="col-lg-2 col-md-2 col-sm-3">
+            <img src="./assets/advetrs/{{advert.photo}}" class="img-responsive center-block"/>
           </div>
-          <div>
-            <h6 class="text-muted">{{advert.categoryName}}</h6>
-            <br />
-            <h6>{{advert.city}}</h6>
-            <h6 class="text-muted">{{advert.date | date:'dd.MM.yyyy hh:mm:ss'}}</h6>
+          <div class="col-lg-6 col-md-6 col-sm-5">
+            <div class="lead text-primary">
+              {{advert.title}}
+            </div>
+            <div>
+              <h6 class="text-muted">{{advert.categoryName}}</h6>
+              <br/>
+              <h6>{{advert.city}}</h6>
+              <h6 class="text-muted">{{advert.date | date:'dd.MM.yyyy hh:mm:ss'}}</h6>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4">
+            <h1 class="text-right">{{advert.price}} грн</h1>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4">
-          <h1 class="text-right">{{advert.price}} грн</h1>
-        </div>
-      </div>
-    </a>
+      </a>
   </div>
   <ng-template #empty>
     <div class="nothing-found-block">

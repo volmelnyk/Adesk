@@ -52,8 +52,8 @@ public class AdvertController {
     @GetMapping("/getAll")
     List<AdvertDTO> getAll() {
         return  advertService.findAll();
-
     }
+
     @GetMapping("/getAll/{username}")
     List<AdvertDTO> getAll(@PathVariable(value = "username") String username) {
 

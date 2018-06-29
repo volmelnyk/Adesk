@@ -8,9 +8,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PhoneDTO {
+
+    private  int id;
     private String number;
 
-    public PhoneDTO(String number) {
+    public PhoneDTO(int id, String number) {
+        this.id = id;
         this.number = number;
     }
 }
